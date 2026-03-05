@@ -1,0 +1,53 @@
+@model IEnumerable<SmartInventory.Application.DTOs.PurchaseOrders.PurchaseOrderDto>
+@using SmartInventory.Domain.Enums
+@{
+    ViewData["Title"] = "Purchase Orders";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-receipt me-2"></i>Purchase Orders</h5>
+    <a asp-action="Create" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg me-1"></i>New PO</a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>PO #</th>
+                    <th>Supplier</th>
+                    <th class="text-end">Total</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Received</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var po in Model)
+            {
+                var badgeClass = po.Status switch {
+                    PurchaseOrderStatus.Draft => "bg-secondary",
+                    PurchaseOrderStatus.Confirmed => "bg-warning text-dark",
+                    PurchaseOrderStatus.Received => "bg-success",
+                    PurchaseOrderStatus.Cancelled => "bg-danger",
+                    _ => "bg-secondary"
+                };
+                <tr>
+                    <td class="fw-semibold">#@po.Id</td>
+                    <td>@po.SupplierName</td>
+                    <td class="text-end">Rp @po.TotalAmount.ToString("N0")</td>
+                    <td><span class="badge @badgeClass">@po.Status</span></td>
+                    <td class="text-muted small">@po.CreatedAt.ToString("dd MMM yyyy")</td>
+                    <td class="text-muted small">@(po.ReceivedAt?.ToString("dd MMM yyyy") ?? "—")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@po.Id" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

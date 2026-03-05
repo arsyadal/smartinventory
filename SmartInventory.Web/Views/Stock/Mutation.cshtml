@@ -1,0 +1,64 @@
+@model SmartInventory.Application.DTOs.Stocks.CreateMutationDto
+@using SmartInventory.Domain.Enums
+@{
+    ViewData["Title"] = "Add Stock Mutation";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-5">
+        <div class="card p-4">
+            <h5 class="fw-semibold mb-4"><i class="bi bi-arrow-left-right me-2"></i>Add Stock Mutation</h5>
+
+            <form asp-action="Mutation" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label asp-for="ProductId" class="form-label fw-semibold">Product</label>
+                    <select asp-for="ProductId" class="form-select">
+                        <option value="">— Select Product —</option>
+                        @foreach (var p in (IEnumerable<SmartInventory.Application.DTOs.Products.ProductDto>)ViewBag.Products)
+                        {
+                            <option value="@p.Id">@p.Name (@p.SKU) — Stock: @p.CurrentStock</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ProductId" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Type" class="form-label fw-semibold">Type</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="Type" value="@MutationType.In" id="typeIn" />
+                            <label class="form-check-label text-success fw-semibold" for="typeIn">
+                                <i class="bi bi-arrow-down-circle me-1"></i>Stock In
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="Type" value="@MutationType.Out" id="typeOut" />
+                            <label class="form-check-label text-danger fw-semibold" for="typeOut">
+                                <i class="bi bi-arrow-up-circle me-1"></i>Stock Out
+                            </label>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Type" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label fw-semibold">Quantity</label>
+                    <input asp-for="Quantity" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="Quantity" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Note" class="form-label fw-semibold">Note <small class="text-muted">(optional)</small></label>
+                    <textarea asp-for="Note" class="form-control" rows="2" placeholder="e.g. Received from supplier"></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>Save</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

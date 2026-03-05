@@ -1,0 +1,47 @@
+@model SmartInventory.Application.DTOs.Products.ProductDto
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h5 class="fw-semibold mb-4"><i class="bi bi-box me-2"></i>@Model.Name</h5>
+
+            <dl class="row">
+                <dt class="col-sm-4">SKU</dt>
+                <dd class="col-sm-8"><code>@Model.SKU</code></dd>
+
+                <dt class="col-sm-4">Category</dt>
+                <dd class="col-sm-8"><span class="badge bg-secondary">@Model.Category</span></dd>
+
+                <dt class="col-sm-4">Price</dt>
+                <dd class="col-sm-8">Rp @Model.Price.ToString("N0")</dd>
+
+                <dt class="col-sm-4">Current Stock</dt>
+                <dd class="col-sm-8 @(Model.IsLowStock ? "text-danger fw-bold" : "")">
+                    @Model.CurrentStock @(Model.IsLowStock ? "⚠ Low Stock" : "")
+                </dd>
+
+                <dt class="col-sm-4">Min Stock</dt>
+                <dd class="col-sm-8">@Model.MinStock</dd>
+
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">
+                    @if (Model.IsActive)
+                    { <span class="badge bg-success">Active</span> }
+                    else
+                    { <span class="badge bg-secondary">Inactive</span> }
+                </dd>
+
+                <dt class="col-sm-4">Created</dt>
+                <dd class="col-sm-8">@Model.CreatedAt.ToString("dd MMM yyyy HH:mm")</dd>
+            </dl>
+
+            <div class="d-flex gap-2 mt-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit</a>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+@model IEnumerable<SmartInventory.Application.DTOs.Prices.PriceHistoryDto>
+@{
+    ViewData["Title"] = "Price Monitor";
+    var keyword = ViewBag.Keyword as string ?? "";
+    var trendData = ViewBag.TrendData as IEnumerable<SmartInventory.Application.DTOs.Prices.PriceTrendDto>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-graph-up me-2"></i>Price Monitor</h5>
+</div>
+
+<div class="card p-3 mb-3">
+    <form asp-action="Index" method="get" class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label fw-semibold">Search Keyword</label>
+            <input type="text" name="keyword" value="@keyword" class="form-control" placeholder="e.g. laptop gaming" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i>Search</button>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" asp-route-keyword="laptop gaming" class="btn btn-outline-secondary btn-sm">Laptop</a>
+            <a asp-action="Index" asp-route-keyword="smartphone" class="btn btn-outline-secondary btn-sm">Smartphone</a>
+            <a asp-action="Index" asp-route-keyword="headphone wireless" class="btn btn-outline-secondary btn-sm">Headphone</a>
+        </div>
+    </form>
+</div>
+
+@if (trendData != null && trendData.Any())
+{
+    <div class="card p-3 mb-3">
+        <h6 class="fw-semibold mb-3"><i class="bi bi-graph-up me-2"></i>Price Trend: "@keyword"</h6>
+        <canvas id="priceChart" height="120"></canvas>
+    </div>
+}
+
+<div class="card">
+    <div class="d-flex align-items-center p-3 border-bottom">
+        <h6 class="mb-0 fw-semibold">Price History</h6>
+        <span class="ms-2 badge bg-secondary">@Model.Count() records</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th class="text-end">Price</th>
+                    <th>Source</th>
+                    <th>Scraped At</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var ph in Model)
+            {
+                <tr>
+                    <td>@ph.ProductName</td>
+                    <td class="text-end fw-semibold">Rp @ph.Price.ToString("N0")</td>
+                    <td><span class="badge bg-info text-dark">@ph.Source</span></td>
+                    <td class="text-muted small">@ph.ScrapedAt.ToString("dd MMM yyyy HH:mm")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+@if (trendData != null && trendData.Any())
+{
+    var labels = trendData.Select(t => t.Date.ToString("dd MMM")).ToArray();
+    var avgPrices = trendData.Select(t => t.AvgPrice).ToArray();
+    var minPrices = trendData.Select(t => t.MinPrice).ToArray();
+    var maxPrices = trendData.Select(t => t.MaxPrice).ToArray();
+    <text>
+const priceCtx = document.getElementById('priceChart').getContext('2d');
+new Chart(priceCtx, {
+    type: 'line',
+    data: {
+        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(labels)),
+        datasets: [
+            {
+                label: 'Avg Price',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(avgPrices)),
+                borderColor: '#0d6efd',
+                backgroundColor: 'rgba(13,110,253,0.08)',
+                fill: true,
+                tension: 0.3
+            },
+            {
+                label: 'Min Price',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(minPrices)),
+                borderColor: '#198754',
+                borderDash: [5,5],
+                tension: 0.3
+            },
+            {
+                label: 'Max Price',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(maxPrices)),
+                borderColor: '#dc3545',
+                borderDash: [5,5],
+                tension: 0.3
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } },
+        scales: { y: { beginAtZero: false } }
+    }
+});
+    </text>
+}
+</script>
+}

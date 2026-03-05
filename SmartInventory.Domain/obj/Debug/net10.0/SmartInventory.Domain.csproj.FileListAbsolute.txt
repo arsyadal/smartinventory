@@ -1,0 +1,11 @@
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/bin/Debug/net10.0/SmartInventory.Domain.deps.json
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/bin/Debug/net10.0/SmartInventory.Domain.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/bin/Debug/net10.0/SmartInventory.Domain.pdb
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.AssemblyInfoInputs.cache
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.AssemblyInfo.cs
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.csproj.CoreCompileInputs.cache
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/refint/SmartInventory.Domain.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/SmartInventory.Domain.pdb
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Domain/obj/Debug/net10.0/ref/SmartInventory.Domain.dll

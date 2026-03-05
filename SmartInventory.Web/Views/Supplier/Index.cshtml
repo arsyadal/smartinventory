@@ -1,0 +1,49 @@
+@model IEnumerable<SmartInventory.Application.DTOs.Suppliers.SupplierDto>
+@{
+    ViewData["Title"] = "Suppliers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-truck me-2"></i>Suppliers</h5>
+    <a asp-action="Create" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg me-1"></i>New Supplier</a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td class="fw-semibold">@s.Name</td>
+                    <td>@s.Contact</td>
+                    <td class="text-muted">@s.Address</td>
+                    <td>
+                        @if (s.IsActive)
+                        { <span class="badge bg-success">Active</span> }
+                        else
+                        { <span class="badge bg-secondary">Inactive</span> }
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                        <form asp-action="Delete" asp-route-id="@s.Id" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete @Html.Raw(s.Name.Replace("'","\'"))?')">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

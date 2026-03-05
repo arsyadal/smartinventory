@@ -1,0 +1,104 @@
+2026-03-05 17:41:36.254 +07:00 [INF] Users seeded.
+2026-03-05 17:41:36.313 +07:00 [INF] Suppliers seeded.
+2026-03-05 17:41:36.448 +07:00 [INF] Products, stocks, and mutations seeded.
+2026-03-05 17:41:36.579 +07:00 [INF] Price history seeded (63 records).
+2026-03-05 17:41:36.594 +07:00 [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+2026-03-05 17:41:36.629 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-03-05 17:41:36.716 +07:00 [INF] Purchase orders seeded.
+2026-03-05 17:41:36.875 +07:00 [INF] Stored procedures applied.
+2026-03-05 17:41:36.976 +07:00 [ERR] Failed executing DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+-- Price history by keyword + date with covering columns
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_PriceHistory_ProductName_ScrapedAt' AND object_id = OBJECT_ID('PriceHistory'))
+    CREATE INDEX IX_PriceHistory_ProductName_ScrapedAt ON PriceHistory(ProductName, ScrapedAt DESC) INCLUDE (Price, Source)
+2026-03-05 17:41:36.976 +07:00 [WRN] Could not apply indexes (non-fatal).
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot find the object "PriceHistory" because it does not exist or you do not have permissions.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__193_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRawAsync(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters, CancellationToken cancellationToken)
+   at SmartInventory.Infrastructure.Persistence.Seeders.DatabaseSeeder.ApplyIndexesAsync() in /Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Infrastructure/Persistence/Seeders/DatabaseSeeder.cs:line 216
+ClientConnectionId:4be37189-10dc-4550-9469-920a2d31e9b8
+Error Number:1088,State:12,Class:16
+2026-03-05 17:41:36.984 +07:00 [INF] Database seeding completed.
+2026-03-05 17:41:37.020 +07:00 [INF] Price scraper background service started. Interval: "01:00:00"
+2026-03-05 17:41:37.035 +07:00 [INF] Scraping prices for keyword: laptop gaming
+2026-03-05 17:41:37.061 +07:00 [INF] Saved 6 price records for 'laptop gaming'
+2026-03-05 17:41:37.061 +07:00 [INF] Scraping prices for keyword: smartphone
+2026-03-05 17:41:37.071 +07:00 [INF] Saved 8 price records for 'smartphone'
+2026-03-05 17:41:37.071 +07:00 [INF] Scraping prices for keyword: headphone wireless
+2026-03-05 17:41:37.074 +07:00 [INF] Saved 6 price records for 'headphone wireless'
+2026-03-05 17:48:59.038 +07:00 [INF] Stored procedures applied.
+2026-03-05 17:48:59.147 +07:00 [ERR] Failed executing DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+-- Price history by keyword + date with covering columns
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_PriceHistory_ProductName_ScrapedAt' AND object_id = OBJECT_ID('PriceHistory'))
+    CREATE INDEX IX_PriceHistory_ProductName_ScrapedAt ON PriceHistory(ProductName, ScrapedAt DESC) INCLUDE (Price, Source)
+2026-03-05 17:48:59.157 +07:00 [WRN] Could not apply indexes (non-fatal).
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot find the object "PriceHistory" because it does not exist or you do not have permissions.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__193_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRawAsync(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters, CancellationToken cancellationToken)
+   at SmartInventory.Infrastructure.Persistence.Seeders.DatabaseSeeder.ApplyIndexesAsync() in /Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Infrastructure/Persistence/Seeders/DatabaseSeeder.cs:line 216
+ClientConnectionId:b25cb431-40b6-4440-909b-b33ac56bf373
+Error Number:1088,State:12,Class:16
+2026-03-05 17:48:59.181 +07:00 [INF] Database seeding completed.
+2026-03-05 17:48:59.494 +07:00 [INF] Price scraper background service started. Interval: "01:00:00"
+2026-03-05 17:48:59.653 +07:00 [INF] Scraping prices for keyword: laptop gaming
+2026-03-05 17:49:00.910 +07:00 [INF] Saved 9 price records for 'laptop gaming'
+2026-03-05 17:49:00.912 +07:00 [INF] Scraping prices for keyword: smartphone
+2026-03-05 17:49:00.988 +07:00 [INF] Saved 6 price records for 'smartphone'
+2026-03-05 17:49:00.992 +07:00 [INF] Scraping prices for keyword: headphone wireless
+2026-03-05 17:49:01.033 +07:00 [INF] Saved 6 price records for 'headphone wireless'
+2026-03-05 17:50:32.989 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-03-05 17:54:34.849 +07:00 [INF] Stored procedures applied.
+2026-03-05 17:54:34.897 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+-- Price history by keyword + date with covering columns
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_PriceHistory_ProductName_ScrapedAt' AND object_id = OBJECT_ID('PriceHistory'))
+    CREATE INDEX IX_PriceHistory_ProductName_ScrapedAt ON PriceHistory(ProductName, ScrapedAt DESC) INCLUDE (Price, Source)
+2026-03-05 17:54:34.899 +07:00 [WRN] Could not apply indexes (non-fatal).
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot find the object "PriceHistory" because it does not exist or you do not have permissions.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__193_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRawAsync(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters, CancellationToken cancellationToken)
+   at SmartInventory.Infrastructure.Persistence.Seeders.DatabaseSeeder.ApplyIndexesAsync() in /Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Infrastructure/Persistence/Seeders/DatabaseSeeder.cs:line 216
+ClientConnectionId:6064173b-c31c-4903-ba91-67c26fb112da
+Error Number:1088,State:12,Class:16
+2026-03-05 17:54:34.906 +07:00 [INF] Database seeding completed.
+2026-03-05 17:54:34.955 +07:00 [INF] Price scraper background service started. Interval: "01:00:00"
+2026-03-05 17:54:34.968 +07:00 [INF] Scraping prices for keyword: laptop gaming
+2026-03-05 17:54:35.081 +07:00 [INF] Saved 10 price records for 'laptop gaming'
+2026-03-05 17:54:35.113 +07:00 [INF] Scraping prices for keyword: smartphone
+2026-03-05 17:54:35.123 +07:00 [INF] Saved 8 price records for 'smartphone'
+2026-03-05 17:54:35.123 +07:00 [INF] Scraping prices for keyword: headphone wireless
+2026-03-05 17:54:35.128 +07:00 [INF] Saved 8 price records for 'headphone wireless'

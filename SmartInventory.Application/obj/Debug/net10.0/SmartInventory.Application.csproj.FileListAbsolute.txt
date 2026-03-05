@@ -1,0 +1,15 @@
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.csproj.AssemblyReference.cache
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.AssemblyInfoInputs.cache
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.AssemblyInfo.cs
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.csproj.CoreCompileInputs.cache
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/bin/Debug/net10.0/SmartInventory.Application.deps.json
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/bin/Debug/net10.0/SmartInventory.Application.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/bin/Debug/net10.0/SmartInventory.Application.pdb
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/bin/Debug/net10.0/SmartInventory.Domain.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/bin/Debug/net10.0/SmartInventory.Domain.pdb
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInv.4B358927.Up2Date
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/refint/SmartInventory.Application.dll
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/SmartInventory.Application.pdb
+/Users/macintoshhd/Documents/primestock/SmartInventory/SmartInventory.Application/obj/Debug/net10.0/ref/SmartInventory.Application.dll

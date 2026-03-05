@@ -1,0 +1,44 @@
+@model IEnumerable<SmartInventory.Application.DTOs.Stocks.StockDto>
+@{
+    ViewData["Title"] = "Stock Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-archive me-2"></i>Stock Levels</h5>
+    <a asp-action="Mutation" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg me-1"></i>Add Mutation</a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>SKU</th>
+                    <th class="text-end">Quantity</th>
+                    <th class="text-end">Min Stock</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var s in Model)
+            {
+                <tr class="@(s.IsLowStock ? "table-danger" : "")">
+                    <td class="fw-semibold">@s.ProductName</td>
+                    <td><code>@s.SKU</code></td>
+                    <td class="text-end fw-bold">@s.Quantity</td>
+                    <td class="text-end text-muted">@s.MinStock</td>
+                    <td>
+                        @if (s.IsLowStock)
+                        { <span class="badge bg-danger">⚠ Low Stock</span> }
+                        else
+                        { <span class="badge bg-success">OK</span> }
+                    </td>
+                    <td class="text-muted small">@s.LastUpdated.ToString("dd MMM yyyy HH:mm")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

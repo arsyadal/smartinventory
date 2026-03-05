@@ -1,0 +1,100 @@
+@model SmartInventory.Application.DTOs.PurchaseOrders.CreatePurchaseOrderDto
+@{
+    ViewData["Title"] = "New Purchase Order";
+    var suppliers = (IEnumerable<SmartInventory.Application.DTOs.Suppliers.SupplierDto>)ViewBag.Suppliers;
+    var products = (IEnumerable<SmartInventory.Application.DTOs.Products.ProductDto>)ViewBag.Products;
+}
+
+<div class="card p-4">
+    <h5 class="fw-semibold mb-4"><i class="bi bi-receipt me-2"></i>New Purchase Order</h5>
+
+    <form asp-action="Create" method="post" id="poForm">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                <label asp-for="SupplierId" class="form-label fw-semibold">Supplier</label>
+                <select asp-for="SupplierId" class="form-select">
+                    <option value="">— Select Supplier —</option>
+                    @foreach (var s in suppliers)
+                    {
+                        <option value="@s.Id">@s.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <h6 class="fw-semibold mb-2">Order Items</h6>
+        <div id="detailsContainer">
+            <div class="row g-2 mb-2 detail-row">
+                <div class="col-md-5">
+                    <select name="Details[0].ProductId" class="form-select">
+                        <option value="">— Product —</option>
+                        @foreach (var p in products)
+                        {
+                            <option value="@p.Id">@p.Name (@p.SKU)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="Details[0].Quantity" class="form-control" placeholder="Qty" min="1" />
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="Details[0].UnitPrice" class="form-control" placeholder="Unit Price" min="0" step="1000" />
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-danger" onclick="removeRow(this)"><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="addRow()">
+            <i class="bi bi-plus me-1"></i>Add Item
+        </button>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>Create PO</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+<script>
+const productsJson = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(products.Select(p => new { p.Id, p.Name, p.SKU })));
+let rowCount = 1;
+
+function buildOptions() {
+    return productsJson.map(p => `<option value="${p.id}>${p.name} (${p.sku})</option>`).join('');
+}
+
+function addRow() {
+    const container = document.getElementById('detailsContainer');
+    const idx = rowCount++;
+    const div = document.createElement('div');
+    div.className = 'row g-2 mb-2 detail-row';
+    div.innerHTML = `
+        <div class="col-md-5">
+            <select name="Details[${idx}].ProductId" class="form-select">
+                <option value="">— Product —</option>
+                ${productsJson.map(p => `<option value="${p.id}">${p.name} (${p.sku})</option>`).join('')}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="Details[${idx}].Quantity" class="form-control" placeholder="Qty" min="1" />
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="Details[${idx}].UnitPrice" class="form-control" placeholder="Unit Price" min="0" step="1000" />
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-danger" onclick="removeRow(this)"><i class="bi bi-trash"></i></button>
+        </div>`;
+    container.appendChild(div);
+}
+
+function removeRow(btn) {
+    const rows = document.querySelectorAll('.detail-row');
+    if (rows.length > 1) btn.closest('.detail-row').remove();
+}
+</script>
+}

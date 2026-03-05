@@ -1,0 +1,129 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="p-3 rounded-3 bg-primary bg-opacity-10 me-3">
+                    <i class="bi bi-box fs-4 text-primary"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">Total Products</div>
+                    <div class="fw-bold fs-4">@ViewBag.TotalProducts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="p-3 rounded-3 bg-danger bg-opacity-10 me-3">
+                    <i class="bi bi-exclamation-triangle fs-4 text-danger"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">Low Stock Alerts</div>
+                    <div class="fw-bold fs-4 text-danger">@ViewBag.LowStockCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="p-3 rounded-3 bg-warning bg-opacity-10 me-3">
+                    <i class="bi bi-receipt fs-4 text-warning"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">Active POs</div>
+                    <div class="fw-bold fs-4">@ViewBag.ActivePOs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="p-3 rounded-3 bg-success bg-opacity-10 me-3">
+                    <i class="bi bi-graph-up fs-4 text-success"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">Last Price Update</div>
+                    <div class="fw-bold fs-6">@ViewBag.LastPriceUpdate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="card p-3">
+            <h6 class="fw-semibold mb-3"><i class="bi bi-bar-chart me-2"></i>Current Stock Levels</h6>
+            <canvas id="stockChart" height="200"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card p-3">
+            <h6 class="fw-semibold mb-3"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Critical Stock Items</h6>
+            @if (ViewBag.LowStockItems != null && ((IEnumerable<dynamic>)ViewBag.LowStockItems).Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-end">Current</th>
+                                <th class="text-end">Min</th>
+                                <th class="text-end">Deficit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in ViewBag.LowStockItems)
+                        {
+                            <tr>
+                                <td>@item.ProductName <br/><small class="text-muted">@item.SKU</small></td>
+                                <td class="text-end text-danger fw-bold">@item.CurrentQuantity</td>
+                                <td class="text-end">@item.MinStock</td>
+                                <td class="text-end"><span class="badge bg-danger">-@item.Deficit</span></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-2">
+                    <a asp-controller="Stock" asp-action="Index" class="btn btn-sm btn-outline-danger">View All Low Stock</a>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted text-center py-3"><i class="bi bi-check-circle text-success me-2"></i>All stocks are healthy!</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const stockData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.StockData ?? new object[0]));
+const ctx = document.getElementById('stockChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: stockData.map(d => d.productName ?? d.ProductName),
+        datasets: [{
+            label: 'Current Quantity',
+            data: stockData.map(d => d.quantity ?? d.Quantity),
+            backgroundColor: 'rgba(13, 110, 253, 0.7)',
+            borderRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } } }
+    }
+});
+</script>
+}
